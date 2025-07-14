@@ -151,4 +151,8 @@ public function import(Request $request)
     return Excel::download(new EmployeesExport, 'employees.xlsx');
 }
 
+
+//select employee for create attendence:
+
+
 }

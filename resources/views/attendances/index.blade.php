@@ -37,7 +37,7 @@
                             <tbody>
                                 @foreach ($attendances as $key => $attendance)
                                     <tr>
-                                        <td scope="col">{{ $key += 1 }}</td>
+                                        <td scope="col">{{ $loop->iteration }}</td>
                                         <td scope="col">
                                             {{ $attendance->employee->first_name }} {{ $attendance->employee->last_name }}
                                         </td>
@@ -47,11 +47,11 @@
                                         <td scope="col">{{ $attendance->check_in }}</td>
                                         <td scope="col">{{ $attendance->check_out }}</td>
                                         <td scope="col">
-                                            <a href="{{ route('attendances.edit',$attendance->id) }}" 
+                                            <a href="{{ route('attendances.edit',$attendance->id) }}"
                                                 class="btn btn-warning btn-sm my-1">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form class="d-inline" action="{{ route('attendances.destroy',$attendance->id) }}" 
+                                            <form class="d-inline" action="{{ route('attendances.destroy',$attendance->id) }}"
                                                 method="post"
                                                 onsubmit="return confirm('Are you sure you want to delete this attendance?')"
                                                 >
@@ -66,6 +66,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <a href="{{ route('attendances.export') }}" class="btn btn-sm btn-outline-primary">Download Excel</a>
                     </div>
                 </div>
             </div>

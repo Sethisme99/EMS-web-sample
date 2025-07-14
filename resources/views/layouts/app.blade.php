@@ -1,5 +1,5 @@
 <style>
-    .pagination li a, 
+    .pagination li a,
     .pagination li span {
         font-size: 0.875rem !important; /* smaller font */
         padding: 0.25rem 0.6rem !important; /* smaller padding */
@@ -26,6 +26,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
         <!-- Custom Styles -->
+
+
         @yield('styles')
     </head>
     <body class="bg-light">
@@ -56,6 +58,7 @@
         <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
         <!-- Sweet alert js -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
         @session('success')
             <script>

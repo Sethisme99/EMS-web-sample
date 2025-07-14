@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\Employee;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Exports\AttendanceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -15,8 +17,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::all();
-        return view('attendances.index',compact('attendances'));
+        $attendances = Attendance::with('employee')->latest()->get();
+        return view('attendances.index', compact('attendances'));
     }
 
     /**
@@ -24,8 +26,9 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        $employees = Employee::all();
-        return view('attendances.create',compact('employees'));
+        //$employees = Employee::all();
+       $employees = Employee::orderBy('first_name')->limit(100)->get(); // Or paginate
+       return view('attendances.create',compact('employees'));
     }
 
     /**
@@ -79,4 +82,15 @@ class AttendanceController extends Controller
         $attendance->delete();
         return to_route('attendances.index')->with('success','Attendance deleted successfully');
     }
+
+
+    //Import and Export to Excel:
+
+    public function export()
+    {
+        return Excel::download(new AttendanceExport, 'attendances.xlsx');
+    }
+
+
+
 }

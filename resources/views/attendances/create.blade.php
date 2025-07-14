@@ -72,13 +72,14 @@
                             >
                                 <option selected value="" disabled>Choose a employee</option>
                                 @foreach ($employees as $employee)
-                                    <option 
+                                    <option
                                         {{ old('employee_id') == $employee->id ? 'selected' : '' }}
                                         value="{{ $employee->id }}">
                                         {{ $employee->first_name }} {{ $employee->last_name }}
                                     </option>
                                 @endforeach
                             </select>
+
                             @error('employee_id')
                                 <div class="invalid-feedback">
                                     {{ $message }}
