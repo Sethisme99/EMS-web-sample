@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\Employee;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Imports\AttendanceImport;
 use App\Exports\AttendanceExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -85,6 +86,18 @@ class AttendanceController extends Controller
 
 
     //Import and Export to Excel:
+
+    public function import(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,csv,xls',
+    ]);
+
+    Excel::import(new AttendanceImport, $request->file('file'));
+
+    return back()->with('success', 'Attendance imported successfully!');
+}
+
 
     public function export()
     {

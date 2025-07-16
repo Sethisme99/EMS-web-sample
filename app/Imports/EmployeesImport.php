@@ -27,8 +27,8 @@ class EmployeesImport implements ToModel, WithHeadingRow
             'address'       => $row['address'],
             'date_of_birth' => $row['date_of_birth'],
             'hire_date'     => $row['hire_date'],
-            'image'         => $row['image'],
             'salary'        => $row['salary'],
+            'image'         => $row['image'],
             'department_id' => $department->id,
             'position_id'   => $position->id,
             'status'        => $row['status'],
@@ -42,9 +42,9 @@ class EmployeesImport implements ToModel, WithHeadingRow
     return [
         '*.first_name' => ['required'],
         '*.last_name' => ['required'],
-        '*.email' => ['required', 'email', 'unique:employees,email'],
+        /*'*.email' => ['required', 'email', 'unique:employees,email'],
         '*.department' => ['required', 'exists:departments,name'],
-        '*.position' => ['required', 'exists:positions,title'],
+        '*.position' => ['required', 'exists:positions,title'],*/
     ];
 }
 }

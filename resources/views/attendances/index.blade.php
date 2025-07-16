@@ -13,6 +13,15 @@
             <i class="fas fa-plus"></i>
         </a>
     </div>
+
+    <!--Att Import-->
+    <form action="{{ route('attendances.import') }}" method="POST" enctype="multipart/form-data" class="mb-3 d-flex gap-2">
+    @csrf
+    <input type="file" name="file" required class="form-control form-control-sm">
+    <button type="submit" class="btn btn-sm btn-success">Import Excel</button>
+    </form>
+    <!--Att Import-->
+
     <hr>
     <div class="row my-2">
         <div class="col-md-12">
@@ -27,7 +36,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Employee</th>
+                                    <th scope="col">Employee_Id</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Check In</th>
                                     <th scope="col">Check Out</th>

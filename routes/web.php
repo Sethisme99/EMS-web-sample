@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/employees/import', [EmployeeController::class, 'import'])->name('employees.import');
     Route::get('/employees/export/excel', [EmployeeController::class, 'exportAll'])->name('employees.export');
     Route::resource('attendances',AttendanceController::class)->except(['show']);
+    Route::post('/attendances/import', [AttendanceController::class, 'import'])->name('attendances.import');
     Route::get('/attendances/export', [AttendanceController::class, 'export'])->name('attendances.export');
     Route::resource('holidays',HolidayController::class);
     Route::get('holiday/{holiday}/pdf',[HolidayController::class,'download'])->name('holiday.pdf');
