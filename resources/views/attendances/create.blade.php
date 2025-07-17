@@ -1,10 +1,23 @@
 @extends('layouts.app')
 
+<style>
+    #employee_list {
+        display: none;
+        background-color: white;
+        border: 1px solid #ddd;
+    }
+    </style>
+
+
+
 @section('title')
     Create Attendance
 @endsection
 
 @section('content')
+
+
+
     <h3 class="my-3">
         Create Attendance
     </h3>
@@ -65,20 +78,33 @@
                         </div>
                         <div class="mb-3">
                             <label for="employee_id" class="form-label">Employee</label>
-                            <select
-                                class="form-select @error('employee_id') is-invalid @enderror"
-                                name="employee_id"
-                                id="employee_id"
-                            >
-                                <option selected value="" disabled>Choose a employee</option>
-                                @foreach ($employees as $employee)
-                                    <option
-                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}
-                                        value="{{ $employee->id }}">
-                                        {{ $employee->first_name }} {{ $employee->last_name }}
-                                    </option>
-                                @endforeach
-                            </select>
+
+
+
+<div class="position-relative" style="max-width: 400px;">
+    <input type="text"
+           id="employee_search"
+           class="form-control @error('employee_id') is-invalid @enderror"
+           placeholder="Search employee..."
+           autocomplete="on"
+           value=""
+    >
+    <input type="hidden" name="employee_id" id="employee_id">
+
+    <ul class="list-group position-absolute w-100" id="employee_list"
+        style="z-index: 1000; display: none; max-height: 200px; overflow-y: auto;">
+        {{-- This should be EMPTY initially --}}
+    </ul>
+
+    @error('employee_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
+
+
+
 
                             @error('employee_id')
                                 <div class="invalid-feedback">
@@ -97,5 +123,67 @@
             </div>
         </div>
     </div>
+
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('employee_search');
+    const hiddenInput = document.getElementById('employee_id');
+    const employeeList = document.getElementById('employee_list');
+
+    let timeout = null;
+
+    searchInput.addEventListener('input', function () {
+        const query = this.value.trim();
+
+        clearTimeout(timeout);
+        if (!query) {
+            employeeList.style.display = 'none';
+            return;
+        }
+
+        // Wait a bit before sending request
+        timeout = setTimeout(() => {
+            fetch(`/api/employees/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    employeeList.innerHTML = '';
+                    if (data.length === 0) {
+                        employeeList.style.display = 'none';
+                        return;
+                    }
+
+                    data.forEach(emp => {
+                        const item = document.createElement('li');
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = `${emp.first_name} ${emp.last_name}`;
+                        item.dataset.id = emp.id;
+
+                        item.addEventListener('click', function () {
+                            searchInput.value = this.textContent;
+                            hiddenInput.value = this.dataset.id;
+                            employeeList.style.display = 'none';
+                        });
+
+                        employeeList.appendChild(item);
+                    });
+
+                    employeeList.style.display = 'block';
+                });
+        }, 300); // delay to reduce request spam
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#employee_list') && e.target !== searchInput) {
+            employeeList.style.display = 'none';
+        }
+    });
+});
+</script>
+
+
+
+
 @endsection
 

@@ -5,6 +5,8 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Employee;
+use Illuminate\Http\Request;
 
 
 Route::middleware('guest')->group(function() {
@@ -22,9 +24,9 @@ Route::middleware('auth')->group(function() {
     Route::post('/employees/import', [EmployeeController::class, 'import'])->name('employees.import');
     Route::get('/employees/export/excel', [EmployeeController::class, 'exportAll'])->name('employees.export');
     Route::resource('attendances',AttendanceController::class)->except(['show']);
+    Route::get('/api/employees/search', [App\Http\Controllers\EmployeeController::class, 'search']);
     Route::post('/attendances/import', [AttendanceController::class, 'import'])->name('attendances.import');
     Route::get('/attendances/export', [AttendanceController::class, 'export'])->name('attendances.export');
     Route::resource('holidays',HolidayController::class);
     Route::get('holiday/{holiday}/pdf',[HolidayController::class,'download'])->name('holiday.pdf');
 });
-

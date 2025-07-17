@@ -118,6 +118,20 @@ public function index(Request $request)
         }
     }
 
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $employees = \App\Models\Employee::where('first_name', 'like', "%$query%")
+            ->orWhere('last_name', 'like', "%$query%")
+            ->limit(10)
+            ->get(['id', 'first_name', 'last_name']);
+
+        return response()->json($employees);
+    }
+
+
+
     /**
      * Download the employee's cv as pdf
      */

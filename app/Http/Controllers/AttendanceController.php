@@ -27,8 +27,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //$employees = Employee::all();
-       $employees = Employee::orderBy('first_name')->limit(100)->get(); // Or paginate
+        $employees = Employee::all();
+     //  $employees = Employee::orderBy('first_name')->limit(100)->get(); // Or paginate
        return view('attendances.create',compact('employees'));
     }
 
